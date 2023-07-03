@@ -1,23 +1,50 @@
-import React from 'react';
 import photo from '../Public/images/ali.jpg'
 import html from '../Public/images/html1.png'
 import css from '../Public/images/css1.png'
 import js from '../Public/images/js1.png'
 import node from '../Public/images/nodeJS.png'
 import reactIcon from '../Public/images/react.png'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
-function About() {
+
+const PresentationCard = () => {
+  const [presentation, setPresentation] = useState([]);
+
+ useEffect(() => {
+    axios.get(`${process.env.REACT_APP_HOST}/presentationCards`).then((res) => {
+      setPresentation(res.data);
+    });
+  }, []);
+
+  return (
+    <div>
+      {presentation.map((presentation, i) => (
+        <div key={i}>
+          <img className="moi" src={presentation.img[0].src} alt={presentation.img[0].alt} />
+          <h4>{presentation.name}</h4>
+          <p>{presentation.age}</p>
+          <p>{presentation.city}</p>
+          <p>{presentation.interests}</p>
+          <p>{presentation.description}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+
+
+ 
+
+
+const About = () => {
   return (
     <>
       <h2>À propos de moi</h2>
       <section className="mid">
         <section className="presentation">
-          <img className="moi" src={photo} alt="photo de profil" />
-          <p>Malik Ali</p>
-          <p>29 ans</p>
-          <p>Région Parisienne</p>
-          <p>Centre d'intérêts</p>
-          <p>Je suis passionné par le sport, la musique, la lecture et les voyages.</p>
+          <PresentationCard />
         </section>
         <section className="a-propos">
           <p>Bien décidé à engager une reconversion professionnelle depuis plusieurs années dans les métiers du web, j'ai entrepris de me former au métier de Développeur Web.</p>

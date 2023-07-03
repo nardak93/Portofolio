@@ -1,10 +1,19 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-mongoose.connect('mongodb://localhost/Projets', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch((err) => {
-  console.log('Error connecting to MongoDB:', err);
-});
+// Connection a la base de donnée
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(`${process.env.DB_URL}`);
+
+    // Addresse de la base de donnée : mongodb:// + adresse IP du serveur + port + nom de la base de donnée
+    console.log('Connected to the database');
+  } catch (error) {
+    console.error('Database connection error:', error);
+  }
+};
+
+// Exportation de la fonction connectDB
+
+export default connectDB;

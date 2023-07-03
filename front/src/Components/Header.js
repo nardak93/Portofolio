@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import moonIcon from '../Public/images/moon.png';
 import gitIcon from '../Public/images/git.png'
@@ -7,8 +8,12 @@ import '../App.css';
 
 
 const Header = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [currentImage, setCurrentImage] = useState(0);
-  const images = ['./images/hero01.jpg', './images/hero02.jpg', './images/hero03.jpg', './images/hero05.jpg'];
+  const [isNightMode, setIsNightMode] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  
+  const images = ['/images/hero01.jpg', '/images/hero02.jpg', '/images/hero03.jpg', '/images/hero05.jpg'];
 
   useEffect(() => {
     const slider = document.querySelector('.slider');
@@ -45,16 +50,11 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    const loader = document.getElementById('loading');
-    setTimeout(() => {
-      loader.style.display = 'none';
-    }, 3000);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
   }, []);
-
-
-
-  ////////////////////////  DARK MODE  ////////////////////////
-  const [isNightMode, setIsNightMode] = useState(false);
 
   const toggleNightMode = () => {
     setIsNightMode(!isNightMode);
@@ -64,55 +64,11 @@ const Header = () => {
     document.querySelector('.social').style.color = 'white';
   };
 
-  useEffect(() => {
-    const nightModeToggle = document.getElementById("night-mode-toggle");
-    nightModeToggle.addEventListener("click", toggleNightMode);
-
-    const hamburgerMenu = document.querySelector('.hamburger-menu');
-    const navList = document.querySelector('nav ul');
-
-    hamburgerMenu.addEventListener('click', () => {
-      hamburgerMenu.classList.toggle('active');
-      navList.classList.toggle('active');
-    });
-
-    const phoneBtn = document.querySelector('.phone-btn');
-    phoneBtn.addEventListener('click', (event) => {
-      event.preventDefault();
-      const phoneSpan = document.querySelector('.phone-span');
-      phoneSpan.classList.toggle('hidden');
-    });
-
-    return () => {
-      nightModeToggle.removeEventListener("click", toggleNightMode);
-      hamburgerMenu.removeEventListener('click', () => {
-        hamburgerMenu.classList.toggle('active');
-        navList.classList.toggle('active');
-      });
-      phoneBtn.removeEventListener('click', (event) => {
-        event.preventDefault();
-        const phoneSpan = document.querySelector('.phone-span');
-        phoneSpan.classList.toggle('hidden');
-      });
-    };
-  }, []);
-
-
-
-
-
-
-  ////////////////////////  DARK MODE  ////////////////////////
-
-  const [menuOpen, setMenuOpen] = useState(false);
   const handleHamburgerClick = () => {
     setMenuOpen(!menuOpen);
   };
 
   const navListClass = menuOpen ? "active" : "";
-
-  
-
 
   useEffect(() => {
     const nightModeToggle = document.getElementById("night-mode-toggle");
@@ -139,18 +95,14 @@ const Header = () => {
       });
     };
   }, [menuOpen]);
-  
-
-
-
-
-
 
   return (
     <>
-      <div id="loading">
-        <div className="loader"></div>
-      </div>
+      {isLoading && (
+        <div id="loading">
+          <div className="loader"></div>
+        </div>
+      )}
       <header>
         <nav>
           <ul className={navListClass}>
@@ -171,15 +123,16 @@ const Header = () => {
           </div>
         </nav>
       </header>
-
       <main>
         <section>
           <article>
             <section className="slider"></section>
           </article>
+          <section className="subtitle-container">
           <section className="subTitle">
             <h1>Bonjour, je suis Malik Ali</h1>
             <h2>Developpeur web FullStack</h2>
+          </section>
           </section>
           <section className="social">
             <ul>
