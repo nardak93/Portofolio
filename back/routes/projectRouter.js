@@ -2,6 +2,9 @@
 import express from 'express';
 import multer from 'multer';
 import projectModel from '../models/projectModel.js';
+import { verify } from 'jsonwebtoken';
+import { verifyToken } from '../middlewares/authJwt.js';
+import { isAdmin } from '../middlewares/isAdmin.js';
 
 const router = express.Router();
 const storage = multer.diskStorage({
@@ -50,7 +53,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Faire une mise à jour d'un projet par son ID
-router.put('/:id', (req, res) => {
+router.put('/:id', verifyToken,  (req, res) => {
   projectModel
     .findById(req.params.id)
     .then((project) => {
@@ -67,7 +70,7 @@ router.put('/:id', (req, res) => {
 });
 
 // Effacer un projet par son ID
-router.delete('/:id', (req, res) => {
+router.delete('/:id',verifyToken, isAdmin, (req, res) => {
   projectModel
     .findByIdAndDelete(req.params.id)
     .then(() => res.json('Project deleted.'))
@@ -75,7 +78,7 @@ router.delete('/:id', (req, res) => {
 });
 
 // Route pour l'administration
-router.get('/admin', (req, res) => {
+router.get('/admin',verifyToken, (req, res) => {
   res.send('Admin route');
 });
 

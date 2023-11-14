@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../App.css";
 
@@ -8,6 +8,24 @@ function AddProject() {
     name: "",
     description: "",
   });
+
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    let timeoutId;
+
+    if (message !== "") {
+      timeoutId = setTimeout(() => {
+        setMessage("");
+      }, 2000);
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [message]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -32,20 +50,21 @@ function AddProject() {
   function handleSubmit(event) {
     event.preventDefault();
 
-   
     const data = new FormData();
-    data.append("img", formData.img); 
+    data.append("img", formData.img);
     data.append("name", formData.name);
     data.append("description", formData.description);
 
- 
     axios
       .post(`${process.env.REACT_APP_HOST}/projects`, data)
       .then((response) => {
-        console.log(response.data); 
+        console.log(response.data);
+        setFormData({ img: "", name: "", description: "" });
+        setMessage("Projet ajouté avec succès!");
       })
       .catch((error) => {
-        console.error(error); 
+        console.error(error);
+        setMessage("Erreur lors de l'ajout du projet");
       });
   }
 
@@ -53,7 +72,8 @@ function AddProject() {
     <article className="project-form">
       <section className="project-addForm">
         <h1>Add Project</h1>
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
+        <p>{message}</p>
+        <form onSubmit={handleSubmit} encType="multipart/form-data">  
           <label htmlFor="img">Photo:</label> 
           <input
             type="file"
@@ -65,6 +85,7 @@ function AddProject() {
           <br />
           <label htmlFor="name">Name:</label>
           <input
+          
             type="text"
             id="name"
             name="name"

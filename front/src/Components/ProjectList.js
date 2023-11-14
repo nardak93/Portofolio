@@ -1,9 +1,10 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "./AuthProvider.js"; 
 import '../App.css'; 
 
 function ProjectList() {
+  const { isAuthenticated, token } = useContext(AuthContext);
   const [projects, setProjects] = useState([]);
   const [message, setMessage] = useState("");
 
@@ -29,7 +30,9 @@ function ProjectList() {
 
   const fetchProjects = () => {
     axios
-      .get(`${process.env.REACT_APP_HOST}/projects`)
+      .get(`${process.env.REACT_APP_HOST}/projects`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
       .then((response) => {
         setProjects(response.data);
         console.log(response.data);
@@ -41,7 +44,9 @@ function ProjectList() {
 
   const handleEditProject = (projectId, updatedProject) => {
     axios
-      .put(`${process.env.REACT_APP_HOST}/projects/${projectId}`, updatedProject)
+      .put(`${process.env.REACT_APP_HOST}/projects/${projectId}`, updatedProject, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
       .then((response) => {
         console.log(response.data);
         fetchProjects();
@@ -54,10 +59,13 @@ function ProjectList() {
 
   const handleDeleteProject = (projectId) => {
     axios
-      .delete(`${process.env.REACT_APP_HOST}/projects/${projectId}`)
+      .delete(`${process.env.REACT_APP_HOST}/projects/${projectId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
       .then((response) => {
         console.log(response.data);
         fetchProjects();
+        setMessage("Projet supprimé avec succès !"); 
       })
       .catch((error) => {
         console.error(error);
@@ -77,6 +85,10 @@ function ProjectList() {
     setProjects(updatedProject);
     setMessage("");
   };
+
+  if (!isAuthenticated) {
+    return <p>Please log in to view the project list.</p>;
+  }
 
   return (
     <div className="project-list">
@@ -123,4 +135,11 @@ function ProjectList() {
 }
 
 export default ProjectList;
+
+
+
+
+
+
+
 

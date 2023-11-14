@@ -31,6 +31,27 @@ body {
   opacity: 0.8;
 }
 
+.logout {
+  border: 0.5em solid rgb(0, 0, 0);
+  border-radius: 2em;
+  width: 12em;
+  font-weight: 600;
+  height: 4em;
+  margin-top: 0.2%;
+  margin-right: 15%;
+  width: 20%;
+  opacity: 0.8;
+
+
+}
+
+.logout:hover {
+  background-color: rgb(200, 54, 9);
+  color: white;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
 /* Logo linkedin, github,telephone */
 
 .social {
@@ -991,6 +1012,13 @@ nav {
     border: 1px solid black; 
     box-sizing: border-box;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: space-between;
+
+
+
 }
 
 
@@ -1464,12 +1492,67 @@ footer a:hover {
   background-color: #4caf50;
 }
 
+.login {
+  width: 6em;
+  height: 2em;
+  background-color: #00b4d8;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+
+
+}
+
+.login:hover {
+  background-color: #0077b6;
+  transition: 0.5s;
+}
+
 
 .admin-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 2em;
+}
+
+#admin-menu {
+  /* display: flex; */
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1em;
+  height: 70%;
+}
+
+#admin-menu-item-addProject, #admin-menu-item-updateSkills, #admin-menu-item-projectList {
+  margin-right: 1em;
+  margin: 1em;
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  background-color: #00b4d8;
+  color: #ffffff;
+  text-decoration: none;
+  margin-bottom: 1em;
+}
+
+#admin-menu-item-addProject, #admin-menu-item-updateSkills, #admin-menu-item-projectList:hover {
+  cursor: pointer;
+}
+
+
+
+#admin-menu a {
+  margin-right: 1em;
+  margin: 1em;
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  background-color: #00b4d8;
+  color: #ffffff;
+  text-decoration: none;
+  margin-bottom: 1em;
 }
 
 .update-form {
