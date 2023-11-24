@@ -1,4 +1,3 @@
-import photo from '../Public/images/ali.jpg'
 import html from '../Public/images/html1.png'
 import css from '../Public/images/css1.png'
 import js from '../Public/images/js1.png'

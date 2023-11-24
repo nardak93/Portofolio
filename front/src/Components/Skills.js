@@ -1,11 +1,5 @@
-
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
-import wand from '../Public/images/wand.png';
-import level from '../Public/images/stock.png';
-import design from '../Public/images/design.png';
 import moi from '../Public/images/123.png';
 
 
